@@ -1,19 +1,16 @@
 #import libraries
-import streamlit as st
 from transformers import pipeline
 import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
-import re
 import torch
 from transformers import BartTokenizer, BartForConditionalGeneration, BartConfig
 BART_PATH = 'facebook/bart-large-cnn'
-from rouge import Rouge
 from bs4 import BeautifulSoup
 import requests
 
 #url to summarize
-url = "https://www.nytimes.com/2021/04/30/technology/robot-surgery-surgeon.html"
+URL = "url of book"
 
 
 #function to get url
@@ -27,8 +24,7 @@ def get_url(URL):
 
 
 #creating variable of text to be summarized with url
-my_book = get_url(url)
-
+my_book = get_url(URL)
 
 
 #function to chunk text
@@ -55,10 +51,9 @@ nested = nest_sentences(my_book)
 
 
 #function to generate summary
-
 def generate_summary(nested_sentences):
     
-    #model for summariation & tokenization
+    #Invoking models for summariation & tokenization
     bart_model = BartForConditionalGeneration.from_pretrained(BART_PATH, output_past=True)
     bart_tokenizer = BartTokenizer.from_pretrained(BART_PATH, output_past=True)
      
@@ -78,7 +73,7 @@ def generate_summary(nested_sentences):
     return summaries
 
 
-# generating two level summary
+# function to generate two level summary
 
 def finalSummary(chunked_text):
     summary_one = generate_summary(chunked_text)

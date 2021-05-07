@@ -39,8 +39,8 @@ def get_text(raw_url):
     return article
 
 
-# Function for short/medium text summarization with BART
-def short_textBart(document):
+# Function for extractive short/medium text summarization with BART
+def short_textBert(document):
     summerizer = pipeline('summarization')
     my_summary = summerizer(document, max_length=500, min_length=200, do_sample=False)
     return my_summary[0]['summary_text']
@@ -122,7 +122,7 @@ def main():
         
         st.subheader('Summarize Text')
         message = st.text_area('', 'Type text here' )
-        summarizer_option = st.selectbox('Choose summarizer', ('sumy', 'BART'))
+        summarizer_option = st.selectbox('Choose summarizer', ('sumy', 'BERT'))
         if st.button('Summarize via Text'): 
 
         
@@ -132,9 +132,9 @@ def main():
                 summary_result = sumy_summarizer(message)
 
             #option Bart summarizer
-            elif summarizer_option == 'BART':
-                st.text('Using Bart...')
-                summary_result = short_textBart(message)
+            elif summarizer_option == 'BERT':
+                st.text('Using Bert...')
+                summary_result = short_textBert(message)
                 
             
             #return sumy as default incase of failures
